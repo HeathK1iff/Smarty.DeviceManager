@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option csharp_namespace = "Smarty.DeviceManager.Application";
+
+package greet;
+
+// The greeting service definition.
+service Devices {
+  rpc GetDevicesByProtocol(GetDevicesByProtocolRequest) returns (GetDevicesReply);
+  rpc AddDevice(AddDeviceRequest) returns (AddDeviceResponse);
+}
+
+message DeviceObject {
+  string id = 1;
+  string parentId = 2;
+  string vendor = 3;
+  string model = 4;
+  string protocol = 5;
+  string connectionString = 6;
+}
+
+message GetDevicesByProtocolRequest {
+  string protocol = 1;
+}
+
+message GetDevicesReply {
+  repeated DeviceObject devices = 1;
+}
+
+message AddDeviceRequest {
+  string parentId = 1;
+  string vendor = 2;
+  string model = 3;
+  string protocol = 4;
+  string connectionString = 5;
+}
+
+message AddDeviceResponse
+{
+    string deviceId = 1;
+}

@@ -1,0 +1,3 @@
+[submodule "Smarty.Shared.EventBus"]
+	path = Smarty.Shared.EventBus
+	url = git@github.com:HeathK1iff/Smarty.Shared.EventBus.git
