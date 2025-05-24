@@ -13,7 +13,7 @@ public sealed class DevicesRepository : IDevicesRepository
         _dataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
     }
 
-    public async Task<Device[]> GetAllOrEmptyAsync()
+    public async Task<IEnumerable<Device>> GetAllOrEmptyAsync()
     {   
         var items = await _dataContext.Devices.ToArrayAsync() ?? Array.Empty<DeviceDb>();
         
@@ -21,6 +21,8 @@ public sealed class DevicesRepository : IDevicesRepository
             .Select(a =>
                 new Device
                 {
+                    Id = a.Id,
+                    Location = a.Location,
                     ParentId = a.ParentId, 
                     Vendor = a.Vendor,
                     Model = a.Model,
@@ -66,5 +68,22 @@ public sealed class DevicesRepository : IDevicesRepository
         await _dataContext.Devices
             .Where(a=>a.Id == id)
             .DeleteAsync();
+    }
+
+    public async Task<IEnumerable<Device>> GetDevicesByProtocolAsync(string protocol)
+    {
+         return await _dataContext
+            .Devices
+            .Where(a => a.ConnectionString.StartsWith(protocol))
+            .Select(a =>
+                new Device
+                {
+                    Id = a.Id,
+                    Location = a.Location,
+                    ParentId = a.ParentId, 
+                    Vendor = a.Vendor,
+                    Model = a.Model,
+                    ConnectionString = a.ConnectionString
+                }).ToArrayAsync();
     }
 }

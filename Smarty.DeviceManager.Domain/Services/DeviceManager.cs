@@ -45,13 +45,15 @@ public sealed class DeviceManager : IDeviceManager
         return newDevice;
     }
 
-    public async Task<Device[]> GetDevicesByProtocolAsync(string protocol)
+    public async Task<IEnumerable<Device>> GetAllOrEmpty()
     {
-        var devices = await _devicesRepository
+        return await _devicesRepository
             .GetAllOrEmptyAsync();
+    }
 
-        return devices
-            .Where(a => a.Protocol == protocol)
-            .ToArray();
+    public async Task<IEnumerable<Device>> GetDevicesByProtocolAsync(string protocol)
+    {
+        return await _devicesRepository
+            .GetDevicesByProtocolAsync(protocol);
     }
 }

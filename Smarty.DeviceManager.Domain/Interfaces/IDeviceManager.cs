@@ -5,5 +5,8 @@ namespace Smarty.DeviceManager.Domain.Interfaces;
 public interface IDeviceManager
 {
     Task<Device> AddAsync(Device device);
-    Task<Device[]> GetDevicesByProtocolAsync(string protocol);
+
+    Task<IEnumerable<Device>> GetAllOrEmpty();
+
+    Task<IEnumerable<Device>> GetDevicesByProtocolAsync(string protocol);
 }

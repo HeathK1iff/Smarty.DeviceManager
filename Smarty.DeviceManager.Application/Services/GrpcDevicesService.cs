@@ -1,5 +1,4 @@
 using Grpc.Core;
-using Smarty.DeviceManager.Domain;
 using Smarty.DeviceManager.Domain.Entities;
 using Smarty.DeviceManager.Domain.Interfaces;
 

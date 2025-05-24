@@ -4,7 +4,7 @@ namespace Smarty.DeviceManager.Domain.Entities;
 
 public sealed class Device : EntityBase
 {
-    static string FormatRegExp = @"(\w{1,5})\:\/\/(.+)"; 
+    public static string ConnectionStringFormat = @"(\w{1,5})\:\/\/(.+)"; 
     string _connectionString = string.Empty;
 
     public Guid ParentId { get; init; } 
@@ -16,7 +16,7 @@ public sealed class Device : EntityBase
         get => _connectionString; 
         init
         {
-            if (!Regex.IsMatch(value, FormatRegExp))
+            if (!Regex.IsMatch(value, ConnectionStringFormat))
             {
                 throw new FormatException();
             }
@@ -34,7 +34,7 @@ public sealed class Device : EntityBase
                 return string.Empty;
             }
             
-            var match = Regex.Match(_connectionString, FormatRegExp);
+            var match = Regex.Match(_connectionString, ConnectionStringFormat);
 
             if (match.Success)
             {

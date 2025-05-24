@@ -1,5 +1,6 @@
 using FluentMigrator.Runner;
 using Smarty.DeviceManager.Application.Extensions;
+using Smarty.DeviceManager.Application.Interfaces;
 using Smarty.DeviceManager.Application.Services;
 using Smarty.DeviceManager.Domain.Interfaces;
 using Smarty.DeviceManager.Domain.Services;
@@ -11,10 +12,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddGrpc();
 builder.Services.AddMemoryCache();
+builder.Services.AddControllersWithViews();
 builder.Services.AddEventBusService(builder.Configuration);
-builder.Services.AddTransient<IDeviceManager, DeviceManager>();
-builder.Services.AddTransient<IDevicesRepository, DevicesRepository>();
-builder.Services.AddTransient<IDbContext, DbContext>();
+builder.Services.AddScoped<IDeviceManager, DeviceManager>();
+builder.Services.AddScoped<IApiDeviceService, ApiDeviceService>();
+builder.Services.AddScoped<IDevicesRepository, DevicesRepository>();
+builder.Services.AddScoped<IDbContext, DbContext>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddFluentMigratorCore()
                 .ConfigureRunner(rb => rb
                     .AddPostgres()
@@ -31,9 +37,13 @@ using (var scope = app.Services.CreateScope())
     runner.MigrateUp();
 }
 
-
+//if (app.Environment.IsDevelopment())
+{
+    app.UseSwaggerUI();
+    app.UseSwagger();
+}
 
 app.MapGrpcService<GrpcDevicesService>();
-app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+app.MapControllers();
 
-app.Run();
+await app.RunAsync();

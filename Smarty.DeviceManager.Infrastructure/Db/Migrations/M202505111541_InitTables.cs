@@ -17,6 +17,7 @@ public class M202505111541_InitTables : Migration
             .WithColumn("ParentId").AsGuid().ForeignKey("Devices", "Id").Nullable()
             .WithColumn("Vendor").AsString().NotNullable()
             .WithColumn("Model").AsString().NotNullable()
+            .WithColumn("Location").AsString().Nullable()
             .WithColumn("ConnectionString").AsString();
     }
 }
