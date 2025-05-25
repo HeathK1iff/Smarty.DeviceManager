@@ -1,4 +1,5 @@
 using LinqToDB;
+using LinqToDB.Common.Internal.Cache;
 using Smarty.DeviceManager.Domain.Entities;
 using Smarty.DeviceManager.Domain.Interfaces;
 using Smarty.DeviceManager.Infrastructure.Db.Entities;
@@ -6,7 +7,7 @@ using Smarty.DeviceManager.Infrastructure.Db.Entities;
 namespace Smarty.DeviceManager.Infrastructure.Repositories;
 
 public sealed class DevicesRepository : IDevicesRepository
-{   
+{
     readonly IDbContext _dataContext;
     public DevicesRepository(IDbContext dataContext)
     {
@@ -14,16 +15,16 @@ public sealed class DevicesRepository : IDevicesRepository
     }
 
     public async Task<IEnumerable<Device>> GetAllOrEmptyAsync()
-    {   
+    {
         var items = await _dataContext.Devices.ToArrayAsync() ?? Array.Empty<DeviceDb>();
-        
+
         return items
             .Select(a =>
                 new Device
                 {
                     Id = a.Id,
                     Location = a.Location,
-                    ParentId = a.ParentId, 
+                    ParentId = a.ParentId,
                     Vendor = a.Vendor,
                     Model = a.Model,
                     ConnectionString = a.ConnectionString
@@ -40,7 +41,7 @@ public sealed class DevicesRepository : IDevicesRepository
             ParentId = entity.ParentId,
             ConnectionString = entity.ConnectionString
         };
-        
+
         await _dataContext.Devices.InsertAsync(() => newItem);
     }
 
@@ -48,13 +49,13 @@ public sealed class DevicesRepository : IDevicesRepository
     {
         var updateItem = await _dataContext
             .Devices
-            .FirstOrDefaultAsync(a=>a.Id == entity.Id);
+            .FirstOrDefaultAsync(a => a.Id == entity.Id);
 
         if (updateItem is null)
         {
             throw new InvalidDataException();
         }
-        
+
         await _dataContext.Devices
             .Where(a => a.Id == entity.Id)
             .Set(a => a.Model, entity.Model)
@@ -66,24 +67,24 @@ public sealed class DevicesRepository : IDevicesRepository
     public async Task DeleteAsync(Guid id)
     {
         await _dataContext.Devices
-            .Where(a=>a.Id == id)
+            .Where(a => a.Id == id)
             .DeleteAsync();
     }
 
     public async Task<IEnumerable<Device>> GetDevicesByProtocolAsync(string protocol)
     {
-         return await _dataContext
-            .Devices
-            .Where(a => a.ConnectionString.StartsWith(protocol))
-            .Select(a =>
-                new Device
-                {
-                    Id = a.Id,
-                    Location = a.Location,
-                    ParentId = a.ParentId, 
-                    Vendor = a.Vendor,
-                    Model = a.Model,
-                    ConnectionString = a.ConnectionString
-                }).ToArrayAsync();
+        return await _dataContext
+           .Devices
+           .Where(a => a.ConnectionString.StartsWith(protocol))
+           .Select(a =>
+               new Device
+               {
+                   Id = a.Id,
+                   Location = a.Location,
+                   ParentId = a.ParentId,
+                   Vendor = a.Vendor,
+                   Model = a.Model,
+                   ConnectionString = a.ConnectionString
+               }).ToArrayAsync();
     }
 }
