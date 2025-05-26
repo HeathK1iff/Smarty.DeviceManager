@@ -22,7 +22,7 @@ public sealed class CachedDevicesRepository : IDevicesRepository
 
     public async Task DeleteAsync(Guid id)
     {
-        using (var scope = new TransactionScope())
+        using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Suppress))
         {
             await _devicesRepository.DeleteAsync(id);
 
@@ -44,7 +44,6 @@ public sealed class CachedDevicesRepository : IDevicesRepository
     {
         return await _memoryCache.GetOrCreateAsync(s_listKey, async factory =>
         {
-            factory.SetSlidingExpiration(TimeSpan.FromSeconds(15));
             return await _devicesRepository.GetAllOrEmptyAsync() ;
         }) ?? Enumerable.Empty<Device>();
     }
@@ -60,7 +59,7 @@ public sealed class CachedDevicesRepository : IDevicesRepository
 
     public async Task InsertAsync(Device entity)
     {
-        using (var scope = new TransactionScope())
+        using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
         {
             await _devicesRepository.InsertAsync(entity);
 
@@ -75,7 +74,7 @@ public sealed class CachedDevicesRepository : IDevicesRepository
 
     public async Task UpdateAsync(Device entity)
     {
-        using (var scope = new TransactionScope())
+        using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Suppress))
         {
             await _devicesRepository.UpdateAsync(entity);
 

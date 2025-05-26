@@ -42,7 +42,7 @@ public sealed class DevicesRepository : IDevicesRepository
             ConnectionString = entity.ConnectionString
         };
 
-        await _dataContext.Devices.InsertAsync(() => newItem);
+        await _dataContext.InsertAsync(newItem);
     }
 
     public async Task UpdateAsync(Device entity)

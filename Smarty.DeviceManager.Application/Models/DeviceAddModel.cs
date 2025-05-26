@@ -7,7 +7,7 @@ namespace Smarty.DeviceManager.Application.Models;
 public sealed class DeviceAddModel
 {
     [DataMember]
-    public Guid ParentId { get; init; }
+    public Guid? ParentId { get; init; }
 
     [DataMember]
     public string Vendor { get; init; } = string.Empty;

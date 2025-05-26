@@ -26,4 +26,9 @@ public class DbContext: IDbContext
     }
 
     public ITable<DeviceDb> Devices => _context.GetTable<DeviceDb>();
+
+    public async Task<int> InsertAsync<T>(T item) where T: class
+    {
+        return await _context.InsertAsync(item);
+    }
 }

@@ -9,7 +9,7 @@ public sealed class DeviceDb
     public Guid Id { get; init; }
 
     [Column("ParentId")]
-    public Guid ParentId { get; init; }
+    public Guid? ParentId { get; init; }
 
     [Column("Vendor")]
     public string Vendor { get; set; } = string.Empty;
@@ -18,7 +18,7 @@ public sealed class DeviceDb
     public string Model { get; set; } = string.Empty;
 
     [Column("Location")]
-    public string Location { get; set; } = string.Empty;
+    public string? Location { get; set; }
 
     [Column("ConnectionString")]
     public string ConnectionString { get; set; } = string.Empty;

@@ -14,10 +14,10 @@ public class M202505111541_InitTables : Migration
     {
         Create.Table("Devices")
             .WithColumn("Id").AsGuid().PrimaryKey()
-            .WithColumn("ParentId").AsGuid().ForeignKey("Devices", "Id").Nullable()
+            .WithColumn("ParentId").AsGuid().Nullable().ForeignKey("Devices", "Id")
             .WithColumn("Vendor").AsString().NotNullable()
             .WithColumn("Model").AsString().NotNullable()
             .WithColumn("Location").AsString().Nullable()
-            .WithColumn("ConnectionString").AsString();
+            .WithColumn("ConnectionString").AsString().NotNullable();
     }
 }

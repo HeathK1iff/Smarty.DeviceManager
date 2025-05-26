@@ -9,7 +9,7 @@ public sealed class DeviceModel
     public Guid Id { get; init; }
 
     [DataMember]
-    public Guid ParentId { get; init; }
+    public Guid? ParentId { get; init; }
 
     [DataMember]
     public string Vendor { get; init; } = string.Empty;

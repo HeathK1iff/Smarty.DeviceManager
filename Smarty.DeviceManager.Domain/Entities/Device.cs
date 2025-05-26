@@ -7,7 +7,7 @@ public sealed class Device : EntityBase
     public static string ConnectionStringFormat = @"(\w{1,5})\:\/\/(.+)"; 
     string _connectionString = string.Empty;
 
-    public Guid ParentId { get; init; } 
+    public Guid? ParentId { get; init; } 
     public string Vendor { get; init; } = string.Empty;
     public string Model { get; init; } = string.Empty;
     public string Location { get; init; } = string.Empty;
