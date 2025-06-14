@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smarty.DeviceManager.Infras
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smarty.DeviceManager.Application", "Smarty.DeviceManager.Application\Smarty.DeviceManager.Application.csproj", "{5ABF2F51-D312-4770-B165-E76A7DFA64EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smarty.Shared.EventBus", "Smarty.Shared.EventBus\Smarty.Shared.EventBus.csproj", "{C1660359-3B71-4F8E-A9CD-0C9D1971F05F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

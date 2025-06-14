@@ -9,8 +9,8 @@ namespace Smarty.DeviceManager.Application.Services;
 
 public sealed class ApiDeviceService : IApiDeviceService
 {
-    readonly IDeviceManager _deviceManager;
-    public ApiDeviceService(IDeviceManager deviceManager)
+    readonly IDeviceService _deviceManager;
+    public ApiDeviceService(IDeviceService deviceManager)
     {
         _deviceManager = deviceManager;
     }

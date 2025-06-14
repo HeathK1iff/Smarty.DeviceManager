@@ -2,7 +2,7 @@ using Smarty.DeviceManager.Domain.Entities;
 
 namespace Smarty.DeviceManager.Domain.Interfaces;
 
-public interface IDeviceManager
+public interface IDeviceService
 {
     Task<Device> AddAsync(Device device);
 

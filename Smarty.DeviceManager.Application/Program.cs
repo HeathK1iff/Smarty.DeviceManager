@@ -1,7 +1,5 @@
 using FluentMigrator.Runner;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.DependencyInjection;
-using Smarty.DeviceManager.Application.Extensions;
 using Smarty.DeviceManager.Application.Interfaces;
 using Smarty.DeviceManager.Application.Services;
 using Smarty.DeviceManager.Domain.Interfaces;
@@ -14,9 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddGrpc();
 builder.Services.AddMemoryCache();
-builder.Services.AddControllersWithViews();
-builder.Services.AddEventBusService(builder.Configuration);
-builder.Services.AddScoped<IDeviceManager, DeviceManager>();
+builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IApiDeviceService, ApiDeviceService>();
 builder.Services.AddScoped<IDevicesRepository>(serviceProvider =>
     {
@@ -25,7 +21,6 @@ builder.Services.AddScoped<IDevicesRepository>(serviceProvider =>
         return new CachedDevicesRepository(new DevicesRepository(dbContext), memoryCache);
     });
 builder.Services.AddScoped<IDbContext, DbContext>();
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddFluentMigratorCore()

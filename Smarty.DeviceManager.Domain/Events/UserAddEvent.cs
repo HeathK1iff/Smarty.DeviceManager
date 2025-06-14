@@ -1,9 +1,8 @@
-using Smarty.Shared.EventBus.Abstractions.Events;
-
 namespace Smarty.DeviceManager.Domain.Events;
 
-public class UserAddEvent: EventBase
+public sealed class UserAddEvent
 {
+    public Guid EventId { get; } = Guid.NewGuid();
     public Guid DeviceId { get; init; } 
     public Guid? ParentId { get; init; } 
     public string Vendor { get; init; } = string.Empty;

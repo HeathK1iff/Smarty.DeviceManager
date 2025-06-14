@@ -18,7 +18,7 @@ public sealed class DeviceDb
     public string Model { get; set; } = string.Empty;
 
     [Column("Location")]
-    public string? Location { get; set; }
+    public string Location { get; set; }  = string.Empty;
 
     [Column("ConnectionString")]
     public string ConnectionString { get; set; } = string.Empty;

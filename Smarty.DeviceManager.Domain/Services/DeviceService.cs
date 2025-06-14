@@ -1,19 +1,19 @@
 using Smarty.DeviceManager.Domain.Entities;
 using Smarty.DeviceManager.Domain.Events;
 using Smarty.DeviceManager.Domain.Interfaces;
-using Smarty.Shared.EventBus.Interfaces;
 
 namespace Smarty.DeviceManager.Domain.Services;
 
-public sealed class DeviceManager : IDeviceManager
+public sealed class DeviceService : IDeviceService
 {
     readonly IDevicesRepository _devicesRepository;
-    readonly IEventBusChannelFactory _eventBusChannelFactory;
+    readonly IEventBusPublisherFactory _eventBusPublisherFactory;
 
-    public DeviceManager(IDevicesRepository devicesRepository, IEventBusChannelFactory eventBusChannelFactory)
+    public DeviceService(IDevicesRepository devicesRepository,
+        IEventBusPublisherFactory eventBusPublisherFactory)
     {
         _devicesRepository = devicesRepository ?? throw new ArgumentNullException(nameof(devicesRepository));
-        _eventBusChannelFactory = eventBusChannelFactory ?? throw new ArgumentNullException(nameof(eventBusChannelFactory));
+        _eventBusPublisherFactory = eventBusPublisherFactory ?? throw new ArgumentNullException(nameof(eventBusPublisherFactory));
     }
 
     public async Task<Device> AddAsync(Device device)
@@ -30,16 +30,15 @@ public sealed class DeviceManager : IDeviceManager
 
         await _devicesRepository.InsertAsync(newDevice);
 
-        var publisher = _eventBusChannelFactory.CreatePublisher();
-
+        var publisher = await _eventBusPublisherFactory.CreateUserAddEventPublisherAsync();
+        
         await publisher.PublishAsync(new UserAddEvent()
         {
             DeviceId = device.Id,
             ParentId = device.ParentId,
             Model = device.Model,
             Vendor = device.Vendor,
-            ConnectionString = device.ConnectionString,
-            Version = 1
+            ConnectionString = device.ConnectionString
         }, CancellationToken.None);
 
         return newDevice;

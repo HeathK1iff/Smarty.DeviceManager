@@ -2,13 +2,12 @@ using Grpc.Core;
 using Smarty.DeviceManager.Domain.Entities;
 using Smarty.DeviceManager.Domain.Interfaces;
 
-
 namespace Smarty.DeviceManager.Application.Services;
 
 public class GrpcDevicesService: Devices.DevicesBase
 {
-    readonly IDeviceManager _deviceService;
-    public GrpcDevicesService(IDeviceManager deviceService)
+    readonly IDeviceService _deviceService;
+    public GrpcDevicesService(IDeviceService deviceService)
     {
         _deviceService = deviceService;
     }
